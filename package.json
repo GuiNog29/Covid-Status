@@ -1,7 +1,6 @@
 {
-  "name": "Covid-Status",
+  "name": "covid-status",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,6 +17,10 @@
   },
   "homepage": "https://github.com/GuiNog29/Covid-Status#readme",
   "dependencies": {
-    "axios": "^0.21.1"
-  }
+    "axios": "^0.21.1",
+    "date-fns": "^2.23.0",
+    "node-modules": "^1.0.1"
+  },
+  "type": "module",
+  "description": ""
 }
