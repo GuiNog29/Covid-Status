@@ -1,28 +1,32 @@
 (() => {
   axios.get("https://api.covid19api.com/summary")
     .then(res => {
-      let today = new Date();
-      let todayFormated = dateFns.format(today, 'DD-MM-YYYY HH:mm');
-
+      let todayFormated = dateFns.format(new Date(), 'DD-MM-YYYY HH:mm');
+      
+      console.log(recovered)
       document.getElementById("confirmed").innerText = res.data.Global.TotalConfirmed.toLocaleString("PT");
       document.getElementById("death").innerText = res.data.Global.TotalDeaths.toLocaleString("PT");
-      document.getElementById("recovered").innerText = res.data.Global.TotalRecovered.toLocaleString("PT");
+      document.getElementById("recovered").innerText = calcRecovered(res).toLocaleString("PT");
       document.getElementById("date").innerText = 'Update Date: ' + todayFormated;
 
-      RenderPizza(res);
-      RenderBar();
+      renderPizza(res);
+      renderBar();
     });
 
 
 })();
 
-function RenderPizza(res) {
+function calcRecovered(res){
+  return res.data.Global.TotalConfirmed - res.data.Global.TotalDeaths;
+}
+
+function renderPizza(res) {
   new Chart(document.getElementById("pizza"), {
     type: 'pie',
     data: {
       labels: ["Confirmed", "Recovered", "Deaths"],
       datasets: [{
-        data: [res.data.Global.TotalConfirmed, res.data.Global.TotalRecovered, res.data.Global.TotalDeaths],
+        data: [res.data.Global.TotalConfirmed, calcRecovered(res), res.data.Global.TotalDeaths],
         backgroundColor: ["#FE6283", "#36A2EB", "#FFD267"]
       }]
     },
@@ -41,7 +45,7 @@ function RenderPizza(res) {
   })
 }
 
-function RenderBar() {
+function renderBar() {
   new Chart(document.getElementById("barras"), {
     type: 'bar',
     data: {
